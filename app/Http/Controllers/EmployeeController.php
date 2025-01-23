@@ -82,8 +82,7 @@ class EmployeeController extends Controller
             $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
         }
 
-        DB::transaction(function () use ($validated , $profilePicturePath) {
-            // หา emp_no ล่าสุด
+        DB::transaction(function () use ($validated, $profilePicturePath) {
             $latestEmpNo = DB::table('employees')->max('emp_no') ?? 0;
             $newEmpNo = $latestEmpNo + 1;
 
@@ -94,8 +93,8 @@ class EmployeeController extends Controller
                 'last_name' => $validated['last_name'],
                 'birth_date' => $validated['birth_date'],
                 'hire_date' => $validated['hire_date'],
-                'gender' => $validated['gender'] === 'Male' ? 'M' : 'F', // แปลงค่า gender เป็น M หรือ F
-                'profile_picture' => $profilePicturePath, // เก็บ path ของรูปภาพ
+                'gender' => $validated['gender'] === 'Male' ? 'M' : 'F',
+                'profile_picture' => $profilePicturePath,
             ]);
 
             // เพิ่มข้อมูลลงในตาราง dept_emp

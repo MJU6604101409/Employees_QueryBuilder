@@ -80,12 +80,11 @@ export default function Index({ employees }) {
                 <thead>
                     <tr style={{ backgroundColor: '#dcdcdc', color: '#4a4a4a' }}>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>ID</th>
-                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Profile</th>
-
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>First Name</th>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Last Name</th>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Birthday</th>
-                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>hire_date</th>
+                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Hire_Date</th>
+                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Profile</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,22 +93,7 @@ export default function Index({ employees }) {
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
                                 {employee.emp_no}
                             </td>
-                            <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
-                    {employee.profile_picture ? (
-                        <img
-                            src={employee.profile_picture}
-                            alt={`${employee.first_name} ${employee.last_name}`}
-                            style={{
-                                width: '50px',
-                                height: '50px',
-                                borderRadius: '50%',
-                                objectFit: 'cover',
-                            }}
-                        />
-                    ) : (
-                        <span style={{ color: '#888' }}>No Image</span>
-                    )}
-                </td>
+
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0' }}>{employee.first_name}</td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0' }}>{employee.last_name}</td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
@@ -117,6 +101,24 @@ export default function Index({ employees }) {
                             </td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
                                 {employee.hire_date}
+                            </td>
+                            <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
+                                {employee.profile_picture ? (
+                                    <img
+                                    src={`/storage/${employee.profile_picture}`} // เพิ่ม /storage/ นำหน้า
+                                        alt={`${employee.first_name} ${employee.last_name}`}
+                                        style={{
+                                            width: '50px',
+                                            height: '50px',
+                                            borderRadius: '50%',
+                                            objectFit: 'cover',
+                                            display: 'block', // ทำให้ img เป็น block เพื่อจัดกึ่งกลาง
+                                            margin: '0 auto', // จัดให้อยู่ตรงกลางแนวนอน
+                                        }}
+                                    />
+                                ) : (
+                                    <span style={{ color: '#888' }}>MaiMeeRuP</span>
+                                )}
                             </td>
                         </tr>
                     ))}

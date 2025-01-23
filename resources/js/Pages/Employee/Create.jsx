@@ -34,7 +34,7 @@ export default function Create({ departments }) {
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800">สร้างชื่อๆ</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">กราบเรียนกรอกชื่อด้วยครับ</h1>
 
             {/* Error Message Box */}
             {Object.keys(errors).length > 0 && (

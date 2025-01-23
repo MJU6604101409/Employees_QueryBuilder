@@ -1,6 +1,19 @@
+import { useState, useEffect } from 'react';
+
 // FlashMessage component to display success or error messages.
 const FlashMessage = ({ flash }) => {
-    if (!flash.success && !flash.error) return null;
+    const [visible, setVisible] = useState(!!flash.success || !!flash.error);
+
+    useEffect(() => {
+        if (visible) {
+            const timer = setTimeout(() => setVisible(false), 3000); // หายไปหลัง 3 วินาที
+            return () => clearTimeout(timer); // ล้าง timer เมื่อ component ถูก unmount หรือ flash เปลี่ยน
+        }
+    }, [visible]);
+
+
+    if (!visible) return null; // ถ้าไม่มี flash message ให้ return null
+
     return (
         <div
             className={`${
