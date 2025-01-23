@@ -35,7 +35,7 @@ export default function Index({ employees }) {
                     fontWeight: '500',
                 }}
             >
-                Employee List
+                EmPloYeessssssss List
             </h1>
             <form onSubmit={handleSearch} style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
                 <input
