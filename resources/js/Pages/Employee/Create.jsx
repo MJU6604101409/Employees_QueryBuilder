@@ -9,17 +9,41 @@ export default function Create({ departments }) {
         birth_date: '',
         hire_date: '',
         dept_no: '',
-        gender: '',  // Added gender field
+        gender: '',
+        profile_picture: null, // เพิ่มฟิลด์สำหรับรูปภาพ
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/employee');
+
+        // ใช้ FormData สำหรับส่งข้อมูลที่มีไฟล์
+        const formData = new FormData();
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key]);
+        });
+
+        post('/employee', {
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     };
+
+
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800">Create Employee</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">สร้างชื่อๆ</h1>
+
+            {/* Error Message Box */}
+            {Object.keys(errors).length > 0 && (
+                <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <p className="font-bold">โปรดใส่ข้อมูลด้วยครับอ้าย:</p>
+                    <p>{Object.values(errors).join(', ')}</p>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
@@ -30,7 +54,6 @@ export default function Create({ departments }) {
                         disabled={processing}
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                    {errors.first_name && <p className="mt-1 text-sm text-red-600">{errors.first_name}</p>}
                 </div>
 
                 <div>
@@ -42,7 +65,6 @@ export default function Create({ departments }) {
                         disabled={processing}
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                    {errors.last_name && <p className="mt-1 text-sm text-red-600">{errors.last_name}</p>}
                 </div>
 
                 <div>
@@ -54,7 +76,6 @@ export default function Create({ departments }) {
                         disabled={processing}
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                    {errors.birth_date && <p className="mt-1 text-sm text-red-600">{errors.birth_date}</p>}
                 </div>
 
                 <div>
@@ -66,7 +87,6 @@ export default function Create({ departments }) {
                         disabled={processing}
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                    {errors.hire_date && <p className="mt-1 text-sm text-red-600">{errors.hire_date}</p>}
                 </div>
 
                 <div>
@@ -78,16 +98,14 @@ export default function Create({ departments }) {
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                         <option value="">Select Department</option>
-                        {departments.map(dept => (
+                        {departments.map((dept) => (
                             <option key={dept.dept_no} value={dept.dept_no}>
                                 {dept.dept_name}
                             </option>
                         ))}
                     </select>
-                    {errors.dept_no && <p className="mt-1 text-sm text-red-600">{errors.dept_no}</p>}
                 </div>
 
-                {/* Gender Field */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
                     <select
@@ -97,14 +115,25 @@ export default function Create({ departments }) {
                         className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                         <option value="">Select Gender</option>
-                        {gender.map(g => (
+                        {gender.map((g) => (
                             <option key={g} value={g}>
                                 {g}
                             </option>
                         ))}
                     </select>
-                    {errors.gender && <p className="mt-1 text-sm text-red-600">{errors.gender}</p>}
                 </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setData('profile_picture', e.target.files[0])}
+                        disabled={processing}
+                        className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
+
 
                 <button
                     type="submit"

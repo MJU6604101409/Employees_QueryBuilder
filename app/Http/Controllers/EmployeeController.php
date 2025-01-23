@@ -46,7 +46,7 @@ class EmployeeController extends Controller
             ->get();
 
 
-        return inertia('Employee/Create', [
+        return inertia('Employee/Create', [ // ส่งข้อมูลแผนกไปที่หน้าคลีเอท
             'departments' => $departments
         ]);
     }
@@ -63,8 +63,11 @@ class EmployeeController extends Controller
             'birth_date' => 'required|date',
             'hire_date' => 'required|date',
             'dept_no' => 'required|string|exists:departments,dept_no',
-            'gender' => 'nullable|string|in:Male,Female'
+            'gender' => 'nullable|string|in:Male,Female',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ตรวจสอบให้แน่ใจว่าไม่มี syntax error
         ]);
+
+
 
         // บันทึกข้อมูลแต่ละช่องใน Laravel Log
         Log::info("Employee Data");
@@ -74,13 +77,17 @@ class EmployeeController extends Controller
         Log::info('"Hire Date": "' . $validated['hire_date'] . '"');
         Log::info('"Department No": "' . $validated['dept_no'] . '"');
 
+        $profilePicturePath = null;
+        if ($request->hasFile('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
 
-        DB::transaction(function () use ($validated) {
+        DB::transaction(function () use ($validated , $profilePicturePath) {
             // หา emp_no ล่าสุด
             $latestEmpNo = DB::table('employees')->max('emp_no') ?? 0;
             $newEmpNo = $latestEmpNo + 1;
 
-            // add data to emp talbe
+            // เพิ่มข้อมูลลงในตาราง employees
             DB::table('employees')->insert([
                 'emp_no' => $newEmpNo,
                 'first_name' => $validated['first_name'],
@@ -88,6 +95,7 @@ class EmployeeController extends Controller
                 'birth_date' => $validated['birth_date'],
                 'hire_date' => $validated['hire_date'],
                 'gender' => $validated['gender'] === 'Male' ? 'M' : 'F', // แปลงค่า gender เป็น M หรือ F
+                'profile_picture' => $profilePicturePath, // เก็บ path ของรูปภาพ
             ]);
 
             // เพิ่มข้อมูลลงในตาราง dept_emp

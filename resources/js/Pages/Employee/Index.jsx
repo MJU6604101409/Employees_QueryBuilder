@@ -80,7 +80,9 @@ export default function Index({ employees }) {
                 <thead>
                     <tr style={{ backgroundColor: '#dcdcdc', color: '#4a4a4a' }}>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>ID</th>
-                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Name</th>
+                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Profile</th>
+
+                        <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>First Name</th>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Last Name</th>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>Birthday</th>
                         <th style={{ padding: '10px', border: '1px solid #e0e0e0' }}>hire_date</th>
@@ -92,6 +94,22 @@ export default function Index({ employees }) {
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
                                 {employee.emp_no}
                             </td>
+                            <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
+                    {employee.profile_picture ? (
+                        <img
+                            src={employee.profile_picture}
+                            alt={`${employee.first_name} ${employee.last_name}`}
+                            style={{
+                                width: '50px',
+                                height: '50px',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    ) : (
+                        <span style={{ color: '#888' }}>No Image</span>
+                    )}
+                </td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0' }}>{employee.first_name}</td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0' }}>{employee.last_name}</td>
                             <td style={{ padding: '10px', border: '1px solid #f0f0f0', textAlign: 'center' }}>

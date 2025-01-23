@@ -11,8 +11,10 @@ Route::get('/employees', [EmployeeController::class, 'index']); // แสดง�
 
 
 Route::get('/employee/create', action: [EmployeeController::class, 'create'])->name('employee.create');
+
 Route::post('/employee', action: [EmployeeController::class, 'store'])->name('employee.store');
 Route::get('/employee', action: [EmployeeController::class, 'index'])->name('employee.index');
+
 Route::resource('employees', controller: EmployeeController::class);
 
 
